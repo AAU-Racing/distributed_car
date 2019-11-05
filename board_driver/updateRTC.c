@@ -8,9 +8,10 @@
 #include <board_driver/rtc.h>
 
 int main(void) {
-	uart_init();
-	printf("Starting\n\n");
-	printf("RTC status: %d\n", BSP_RTC_Init());
+	// TODO: Snak med Martin om at flytte denne fil
+	//debug_uart_init();
+	//printf("Starting\n\n");
+	//printf("RTC status: %d\n", BSP_RTC_Init());
 
 	struct tm ti;
 

@@ -105,7 +105,7 @@ static inline void rb_push(ringbuffer_t *rb, uint8_t data) {
  * @return        1 if no data is available and 0 on success
  */
 static inline int rb_pop(ringbuffer_t *rb, uint8_t *data) {
-	if (rb_isEmpty(rb)) return -1; // No data available
+	if (rb_isEmpty(rb)) return 1; // No data available
 
 	*data = rb->buffer[rb->start];
 	rb->start = rb_nextStart(rb);

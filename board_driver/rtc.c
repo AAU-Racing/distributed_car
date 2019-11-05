@@ -5,8 +5,7 @@
 #include <string.h>
 
 #include <board_driver/uart.h>
-#include <board_driver/rtc.h>
-
+#include "rtc.h"
 
 RTC_HandleTypeDef RTCHandle;
 RTC_TimeTypeDef RTCtime;

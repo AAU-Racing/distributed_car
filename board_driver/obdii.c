@@ -30,8 +30,8 @@ static OBDII_Mode1_Pid pid_list[] = /*{ MonitorStatus, FuelSystemStatus,
 	ControlModuleVoltage, FARatioCommanded, RelativeThrottlePosition,
 	AbsoluteThrottlePosition, EngineFuelRate, DriverDemandTorque,
 	EngineReferenceTorque, EnginePercentTorque };*/
-	{ EngineRPM };
-static uint8_t pid_list_length = 1;
+	{ EngineRPM, EngineCoolantTemperature, TimingAdvance, IntakeManifoldPressure, ThrottlePosition, RuntimeEngineStart, ControlModuleVoltage, OxygenSensorFARatio, EngineFuelRate };
+static uint8_t pid_list_length = 9;
 static uint8_t index = 0;
 static bool request_pending = false;
 static uint32_t last_sequence_request = 0;
