@@ -1,26 +1,11 @@
-# Prerequisites
-*.d
-
 # Object files
 *.o
 *.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
+*.lst
 
 # Libraries
 *.lib
 *.a
-*.la
-*.lo
 
 # Shared objects (inc. Windows DLLs)
 *.dll
@@ -32,21 +17,29 @@
 *.exe
 *.out
 *.app
-*.i*86
-*.x86_64
+*.elf
+*elf.map
 *.hex
+*.ee.hex
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+# Os files
+.DS_Store
+Thumbs.db
+thumbs.db
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Everything in the build dir
+build/*
+
+.clang_complete
+
+#ignore dot-folders / files
+.*
+!/.gitignore # but not the .gitignore file
+
+
+# ctag generated tags
+tags
