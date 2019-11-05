@@ -1,5 +1,5 @@
 #include <math.h>
-#include <stm32f4xx.h>
+#include <stm32l4xx.h>
 
 #include <board_driver/can.h>
 

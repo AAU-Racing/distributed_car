@@ -1,7 +1,7 @@
 #ifndef DASHBOARD_BUTTONS_H
 #define DASHBOARD_BUTTONS_H
 
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx_hal.h>
 #include <stdbool.h>
 
 typedef enum {

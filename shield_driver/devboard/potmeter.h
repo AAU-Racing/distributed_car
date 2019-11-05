@@ -1,7 +1,7 @@
 #ifndef POTMETER_H
 #define POTMETER_H
 
-#include <stm32f4xx.h>
+#include <stm32l4xx.h>
 #include <board_driver/adc.h>
 #include <board_driver/gpio.h>
 

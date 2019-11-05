@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 #include <board_driver/uart.h>
 #include <board_driver/bkpsram.h>

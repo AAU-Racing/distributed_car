@@ -1,7 +1,7 @@
 #ifndef WHEEL_SENSOR_H
 #define WHEEL_SENSOR_H
 
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 enum wheel_input {
 	WHEEL_INP_FR, // FRONT RIGHT

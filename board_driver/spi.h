@@ -1,7 +1,7 @@
 #ifndef SPI_H
 #define SPI_H
 
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 #define SPIx                               SPI1
 #define SPIx_CLK_ENABLE()                  __HAL_RCC_SPI1_CLK_ENABLE()

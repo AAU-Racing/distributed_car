@@ -1,5 +1,5 @@
-#include <stm32f4xx.h>
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx.h>
+#include <stm32l4xx_hal.h>
 
 #include <stdbool.h>
 

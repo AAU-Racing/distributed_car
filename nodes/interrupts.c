@@ -1,4 +1,4 @@
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx_hal.h>
 #include <board_driver/uart.h>
 
 
@@ -36,7 +36,7 @@ void SysTick_Handler(void) {
 
 
 /******************************************************************************/
-/*                 STM32F4xx Peripherals Interrupt Handlers                   */
+/*                 stm32l4xx Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) , for the  */
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file (startup_stm32f407xx.s).                                               */

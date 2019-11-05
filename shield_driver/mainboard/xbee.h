@@ -1,7 +1,7 @@
 #ifndef XBEE_H
 #define XBEE_H
 
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 #define XBEE                           UART4
 #define XBEE_CLK_ENABLE()              __HAL_RCC_UART4_CLK_ENABLE()

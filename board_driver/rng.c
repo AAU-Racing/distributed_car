@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <stm32f4xx.h>
+#include <stm32l4xx.h>
 
 void rng_init()
 {

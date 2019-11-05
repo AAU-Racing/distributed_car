@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx_hal.h>
 #include <board_driver/spi.h>
 
 #include "ea_dogxl160w-7.h"

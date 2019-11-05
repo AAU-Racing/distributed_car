@@ -40,7 +40,7 @@ add_dependencies(board_driver
 
 target_link_libraries(board_driver
 	CMSIS
-	STM32f4xx_HAL_Driver
+	stm32l4xx_HAL_Driver
 	STM32_USB_Device_Library
 )
 

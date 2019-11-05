@@ -1,7 +1,7 @@
 #ifndef ACTUATOR_H
 #define ACTUATOR_H
 
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx_hal.h>
 #include <board_driver/gpio.h>
 
 #define ACTUATOR_PWM_TIMER				TIM4

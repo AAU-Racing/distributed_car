@@ -45,7 +45,7 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
+#include "stm32l4xx_hal.h"
 
 /** @addtogroup BSP
   * @{

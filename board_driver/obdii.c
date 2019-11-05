@@ -1,4 +1,4 @@
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx_hal.h>
 #include <stdbool.h>
 
 #include "can.h"

@@ -1,6 +1,6 @@
 #include <stdbool.h>
 
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx_hal.h>
 #include <board_driver/adc.h>
 
 #include "water_temp.h"

@@ -1,4 +1,4 @@
-#include <stm32f4xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -77,7 +77,7 @@ static void enable_pll() {
 
 static void set_flash_latency() {
     // We set FLASH_LATENCY_5 as we are in vcc range 2.7-3.6 at 168mhz
-    // See datasheet table 10 at page 80 (stm32f4xx reference manual)
+    // See datasheet table 10 at page 80 (stm32l4xx reference manual)
     MODIFY_REG(FLASH->ACR, FLASH_ACR_LATENCY_Msk, FLASH_ACR_LATENCY_5WS << FLASH_ACR_LATENCY_Pos);
 }
 
