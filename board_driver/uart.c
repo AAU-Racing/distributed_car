@@ -164,17 +164,17 @@ void uart_init(uint8_t config) {
 void USARTx_IRQHandler(uint8_t config, USART_TypeDef* instance) {
     uart_channel* channel = channels + instance_channels[config];
 
-    if (READ_BIT(instance->SR, USART_SR_RXNE)) {
-        uint8_t data_in = (uint8_t) (instance->DR & 0xFF);
+    if (READ_BIT(instance->ISR, USART_IT_RXNE)) {
+        uint8_t data_in = (uint8_t) (instance->RDR & 0xFF);
         rb_push(&channel->rb_rx, data_in);
     }
 
-    if (READ_BIT(instance->SR, USART_SR_TXE)) {
+    if (READ_BIT(instance->ISR, USART_IT_TXE)) {
         uint8_t data_out;
         if (rb_pop(&channel->rb_tx, &data_out) == 1) {
             CLEAR_BIT(instance->CR1, USART_CR1_TXEIE); // no data available
         } else {
-            instance->DR = data_out;
+            instance->TDR = data_out;
         }
     }
 }
