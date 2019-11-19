@@ -1,4 +1,4 @@
-#include <stm32l4xx_hal.h>
+#include <stm32l432xx_hal.h>
 
 #include <stdint.h>
 #include <stdbool.h>
