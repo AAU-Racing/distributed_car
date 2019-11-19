@@ -1,4 +1,4 @@
-#include <stm32l432xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -30,9 +30,9 @@ void init_board() {
 }
 
 static void start_pwr_clock() {
-    SET_BIT(RCC->APB1ENR, RCC_APB1ENR_PWREN);
+    SET_BIT(RCC->APB1ENR1, RCC_APB1ENR1_PWREN);
     // Delay after PWR clock enabling
-    (void) READ_BIT(RCC->APB1ENR, RCC_APB1ENR_PWREN);
+    (void) READ_BIT(RCC->APB1ENR1, RCC_APB1ENR1_PWREN);
 }
 
 static void pwr_voltage_scaling_config() {
