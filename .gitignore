@@ -32,7 +32,7 @@ thumbs.db
 *.sublime-workspace
 
 # Everything in the build dir
-build/*
+build
 
 .clang_complete
 
