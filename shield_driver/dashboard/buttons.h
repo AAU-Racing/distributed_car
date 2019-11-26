@@ -18,28 +18,28 @@ typedef enum {
 } dashboard_button;
 
 #define BUTTON1_PIN                    PIN_14
-#define BUTTON1_GPIO_PORT              GPIOD
+#define BUTTON1_GPIO_PORT              GPIOA
 
 #define BUTTON2_PIN                    PIN_15
-#define BUTTON2_GPIO_PORT              GPIOD
+#define BUTTON2_GPIO_PORT              GPIOA
 
 #define BUTTON3_PIN                    PIN_2
-#define BUTTON3_GPIO_PORT              GPIOD
+#define BUTTON3_GPIO_PORT              GPIOA
 
 #define BUTTON4_PIN                    PIN_3
-#define BUTTON4_GPIO_PORT              GPIOD
+#define BUTTON4_GPIO_PORT              GPIOA
 
 #define BUTTON5_PIN                    PIN_4
-#define BUTTON5_GPIO_PORT              GPIOD
+#define BUTTON5_GPIO_PORT              GPIOA
 
 #define BUTTON6_PIN                    PIN_5
-#define BUTTON6_GPIO_PORT              GPIOD
+#define BUTTON6_GPIO_PORT              GPIOA
 
 #define BUTTON7_PIN                    PIN_6
-#define BUTTON7_GPIO_PORT              GPIOD
+#define BUTTON7_GPIO_PORT              GPIOA
 
 #define BUTTON8_PIN                    PIN_0
-#define BUTTON8_GPIO_PORT              GPIOE
+#define BUTTON8_GPIO_PORT              GPIOA
 
 void dashboard_buttons_init(void);
 bool dashboard_button_get_state(dashboard_button b);

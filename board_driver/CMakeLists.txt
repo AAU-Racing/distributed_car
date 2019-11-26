@@ -15,23 +15,22 @@ add_library(board_driver
 	init.c
 	uart.c
 	adc.c
-	bkpsram.c
-	flash.c
+	#flash.c
 	can.c
 	rng.c
 	obdii.c
-	usb/usbd_cdc_interface.c
-	usb/usbd_conf.c
-	usb/usbd_desc.c
-	usb/usb.c
+	#usb/usbd_cdc_interface.c
+	#usb/usbd_conf.c
+	#usb/usbd_desc.c
+	#usb/usb.c
 	gpio.c
 	pwm.c
 	i2c.c
 	spi.c
-	rtc.c
 	crc.c
-    iwdg.c
+  iwdg.c
 	TLC59116.c
+	rtc.c
 )
 
 add_dependencies(board_driver
@@ -40,8 +39,8 @@ add_dependencies(board_driver
 
 target_link_libraries(board_driver
 	CMSIS
-	stm32l4xx_HAL_Driver
-	STM32_USB_Device_Library
+	STM32l4xx_HAL_Driver
+	#STM32_USB_Device_Library
 )
 
 target_compile_options(board_driver PRIVATE -Wno-unused-parameter) # TODO remove this and fix the warnings

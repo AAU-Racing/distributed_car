@@ -78,7 +78,7 @@ static int init_fatfs(FATFS* fs) {
 // }
 
 int main(void){
-	uart_init();
+	uart_init(DEV_DEBUG_UART);
 	printf("UART init complete\n");
 	HAL_Delay(10);
 

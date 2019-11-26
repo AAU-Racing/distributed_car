@@ -19,20 +19,20 @@ typedef union {
 } serializable_float;
 
 #define RPM1 WHEEL_INP_FR
-#define RPM1_GPIO_PORT GPIOD
-#define RPM1_PIN PIN_4
+#define RPM1_GPIO_PORT GPIOA
+#define RPM1_PIN PIN_1
 
 #define RPM2 WHEEL_INP_FL
-#define RPM2_GPIO_PORT GPIOD
-#define RPM2_PIN PIN_3
+#define RPM2_GPIO_PORT GPIOA
+#define RPM2_PIN PIN_2
 
 #define RPM3 WHEEL_INP_RR
-#define RPM3_GPIO_PORT GPIOD
-#define RPM3_PIN PIN_2
+#define RPM3_GPIO_PORT GPIOA
+#define RPM3_PIN PIN_3
 
 #define RPM4 WHEEL_INP_RL
-#define RPM4_GPIO_PORT GPIOD
-#define RPM4_PIN PIN_7
+#define RPM4_GPIO_PORT GPIOA
+#define RPM4_PIN PIN_4
 
 void wheel_sensor_init(void);
 

@@ -12,45 +12,10 @@
 #define BUFFER_SIZE         256
 #define NO_EMPTY_MAILBOX    255
 
-#define CAN_INSTANCE ((CAN_TypeDef* const []) { \
-    CAN1, \
-    CAN2, \
-    CAN1, \
-    CAN2, \
-    CAN1, \
-})
-
-#define CAN_RX_PIN ((const GPIO_Pin const []) { \
-    PIN_11, \
-    PIN_5,	 \
-    PIN_8,	 \
-    PIN_12, \
-    PIN_0,  \
-})
-
-#define CAN_RX_PORT ((GPIO_TypeDef* const []) { \
-    GPIOA, \
-    GPIOB, \
-    GPIOB, \
-    GPIOB, \
-    GPIOD, \
-})
-
-#define CAN_TX_PIN ((const GPIO_Pin const []) { \
-    PIN_12, \
-    PIN_6,	 \
-    PIN_9,	 \
-    PIN_13, \
-    PIN_1,  \
-})
-
-#define CAN_TX_PORT ((GPIO_TypeDef* const []) { \
-    GPIOA, \
-    GPIOB, \
-    GPIOB, \
-    GPIOB, \
-    GPIOD, \
-})
+#define CAN_RX_PIN PIN_11
+#define CAN_RX_PORT GPIOA
+#define CAN_TX_PIN PIN_12
+#define CAN_TX_PORT GPIOA
 
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
@@ -89,7 +54,6 @@ static void leave_filter_init_mode();
 
 // can_init
 static void prepare_config(uint8_t config);
-static void set_can_instance(uint8_t config);
 static void start_clock();
 static void exit_sleep();
 static uint8_t enter_init();
@@ -191,6 +155,7 @@ CAN_Statistics can_get_stats() {
 }
 
 uint8_t can_init(uint8_t config) {
+    handle = CAN1;
     prepare_config(config);
 
     if (enter_init() == CAN_INIT_TIMEOUT) {
@@ -200,8 +165,8 @@ uint8_t can_init(uint8_t config) {
     setup_can();
     setup_timing();
 
-    configure_gpio_pin(CAN_RX_PORT[config], CAN_RX_PIN[config]);
-    configure_gpio_pin(CAN_TX_PORT[config], CAN_TX_PIN[config]);
+    configure_gpio_pin(CAN_RX_PORT, CAN_RX_PIN);
+    configure_gpio_pin(CAN_TX_PORT, CAN_TX_PIN);
 
     enter_filter_init_mode();
     reset_filters();
@@ -221,18 +186,12 @@ uint8_t can_init(uint8_t config) {
 }
 
 static void prepare_config(uint8_t config) {
-    set_can_instance(config);
     start_clock();
     exit_sleep();
 }
 
-static void set_can_instance(uint8_t config) {
-    handle = CAN_INSTANCE[config];
-}
-
 static void start_clock() {
-    SET_BIT(RCC->APB1ENR, RCC_APB1ENR_CAN1EN);
-    SET_BIT(RCC->APB1ENR, RCC_APB1ENR_CAN2EN);
+    SET_BIT(RCC->APB1ENR1, RCC_APB1ENR1_CAN1EN);
 }
 
 static void exit_sleep() {
@@ -290,25 +249,20 @@ static void reset_filters() {
     handle->FFA1R = 0; // Set all filters to FIFO 0
     handle->FS1R = 0x0FFFFFFF; // Set all filters to 32-bit single filter
     handle->FM1R = 0; // Set all filters to mask mode
-
-    int filter_bank = 14; //handle == CAN1 ? 0 : 28;
-    filter_num = handle == CAN1 ? 0 : 14;
-
-    MODIFY_REG(handle->FMR, CAN_FMR_CAN2SB_Msk, filter_bank << CAN_FMR_CAN2SB_Pos);
 }
 
 static void enable_interrupt_vectors() {
     // RX fifo 0 interrupt (the only fifo we use)
-    NVIC_SetPriority(handle == CAN1 ? CAN1_RX0_IRQn : CAN2_RX0_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0x1, 0x0));
-    NVIC_EnableIRQ(handle == CAN1 ? CAN1_RX0_IRQn : CAN2_RX0_IRQn);
+    NVIC_SetPriority(CAN1_RX0_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0x1, 0x0));
+    NVIC_EnableIRQ(CAN1_RX0_IRQn);
 
     // TX interrupt
-    NVIC_SetPriority(handle == CAN1 ? CAN1_TX_IRQn : CAN2_TX_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0x1, 0x1));
-    NVIC_EnableIRQ(handle == CAN1 ? CAN1_TX_IRQn : CAN2_TX_IRQn);
+    NVIC_SetPriority(CAN1_TX_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0x1, 0x1));
+    NVIC_EnableIRQ(CAN1_TX_IRQn);
 
     // Status change/error interrupt
-    NVIC_SetPriority(handle == CAN1 ? CAN1_SCE_IRQn : CAN2_SCE_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0x15, 0x0));
-    NVIC_EnableIRQ(handle == CAN1 ? CAN1_SCE_IRQn : CAN2_SCE_IRQn);
+    NVIC_SetPriority(CAN1_SCE_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0x15, 0x0));
+    NVIC_EnableIRQ(CAN1_SCE_IRQn);
 }
 
 static void enable_error_interrupts() {

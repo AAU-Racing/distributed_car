@@ -9,7 +9,7 @@
 #include <shield_driver/devboard/TLC59116.h>
 
 int main(void) {
-	uart_init();
+	uart_init(DEV_DEBUG_UART);
 	printf("UART init complete\n");
 	HAL_Delay(100);
 

@@ -2,7 +2,7 @@
 #include <stdbool.h>
 
 #define POWER_INTERUPT_PIN                    PIN_8
-#define POWER_INTERUPT_GPIO_PORT              GPIOE
+#define POWER_INTERUPT_GPIO_PORT              GPIOA
 
 
 void power_interupt_pin_init(void);

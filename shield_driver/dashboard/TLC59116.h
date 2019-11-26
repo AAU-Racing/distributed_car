@@ -1,5 +1,5 @@
-#ifndef TLC59116_H
-#define TLC59116_H
+#ifndef TLC59116_DASH_H
+#define TLC59116_DASH_H
 
 #include <stdbool.h>
 

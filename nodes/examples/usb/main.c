@@ -3,11 +3,11 @@
 #include <stdio.h>
 
 #include <stm32l4xx_hal.h>
-#include <board_driver/usb/usb.h>
+//#include <board_driver/usb/usb.h>
 
 
 int main(void) {
-	usb_init();
+	//usb_init();
 	HAL_Delay(3000);
 
 	printf("Starting\n");

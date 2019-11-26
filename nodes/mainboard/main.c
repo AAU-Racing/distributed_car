@@ -39,7 +39,7 @@ int main(void) {
 }
 
 void setup(void){
-	uart_init();
+	uart_init(MAIN_DEBUG_UART);
 	printf("\n\n");
 	printf("UART init complete\n");
 
@@ -107,7 +107,7 @@ static float convert_water_temp(uint16_t v_out) {
 	float v_in		  = 4095;  // Max ADC value = 3.3V
 	float r_1  		  = 10000; // R_1 = 10kOhm
 	float r_2 		  = (v_out * r_1) / (v_in - v_out);
-	 // http://www.bosch-motorsport.com/media/catalog_resources/Temperature_Sensor_NTC_M12_Datasheet_51_en_2782569739pdf.pdf
+	 // http://www.motorsport-systems.co.uk/wp-content/uploads/2016/05/Temperature_Sensor_NTC_M12_Datasheet_51_en_2782569739pdf.pdf
 	 // Also check sync
 	float temperature = -31.03 * log(r_2) + 262.55;
 	return temperature;

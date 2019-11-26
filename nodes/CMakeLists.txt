@@ -33,6 +33,8 @@ function(add_executable target_name)
 		PROPERTY LINK_DEPENDS ${ldscript_path}
 	)
 	open_ocd_write_flash(${target_name})
+	open_ocd_start_debug(${target_name})
+	start_gdb(${target_name})
 	add_custom_command(OUTPUT ${target_name}.bin
 		POST_BUILD COMMAND arm-none-eabi-objcopy ${target_name} -O binary ${target_name}.bin
 		DEPENDS ${target_name}
@@ -51,15 +53,13 @@ add_subdirectory(examples/actuator)
 add_subdirectory(examples/gpio)
 add_subdirectory(examples/obdii)
 add_subdirectory(examples/led)
-add_subdirectory(examples/sd)
+#add_subdirectory(examples/sd)
 add_subdirectory(examples/rng)
 add_subdirectory(examples/rpm)
-add_subdirectory(examples/xbee)
 add_subdirectory(examples/adc)
 add_subdirectory(examples/crc)
 add_subdirectory(examples/iwdg)
 add_subdirectory(examples/i2c)
-add_subdirectory(examples/bkpsram)
 
 add_subdirectory(dashboard)
 add_subdirectory(mainboard)

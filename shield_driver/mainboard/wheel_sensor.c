@@ -10,7 +10,7 @@
 
 uint16_t ticks[WHEEL_INP_N] = {0};
 float freq[WHEEL_INP_N] = {0};
-#define TIMx TIM3
+#define TIMx TIM1
 #define TIMx_CLK_ENABLE() __HAL_RCC_TIM3_CLK_ENABLE()
 
 TIM_HandleTypeDef TimHandle;

@@ -8,6 +8,7 @@ set(CMAKE_C_COMPILER arm-none-eabi-gcc)
 set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
 set(CMAKE_OBJDUMP arm-none-eabi-objdump)
 set(CMAKE_SIZE arm-none-eabi-size)
+find_program(GDB NAMES arm-none-eabi-gdb gdb-multiarch)
 
 project(AAU-Racing C ASM)
 
@@ -15,9 +16,9 @@ project(AAU-Racing C ASM)
 # More info can found at http://stackoverflow.com/a/10809541
 set(gc_flags "-ffunction-sections -fdata-sections -Wl,--gc-sections")
 set(mcu_flags "-mcpu=cortex-m4 -mtune=cortex-m4 -mthumb -mlittle-endian -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb-interwork")
-set(linker_flags "-Wl,-gc-sections -Wl,-LTO -nostartfiles -Wl,-Map=./result.map")
+set(linker_flags "-Wl,-gc-sections -Wl,-LTO -nostartfiles -Wl,-Map=./result.map -lc -lrdimon -u _printf_float")
 set(WARNINGS "-Wall -Wextra")
-set(CFLAGS "-Os -g -LTO -std=c11 ${WARNINGS} ${gc_flags} ${mcu_flags} ${linker_flags}")
+set(CFLAGS "-O0 -g3 -LTO -std=c11 ${WARNINGS} ${gc_flags} ${mcu_flags} ${linker_flags}")
 set(CMAKE_C_FLAGS "${CFLAGS} ${CMAKE_C_FLAGS}")
 add_definitions(-DLSE_VALUE=8000000 -DSTM32L432xx -DUSE_USB_FS)
 
@@ -53,6 +54,23 @@ function(open_ocd_write_flash elf_file)
 			-c "program ${elf_file}"
 			-c "reset run; exit;"
 		DEPENDS ${elf_file}
+		VERBATIM
+	)
+endfunction()
+
+function(open_ocd_start_debug elf_file)
+	add_custom_target(${elf_file}_start_debug
+		COMMAND ${OPEN_OCD}
+			-f ${OPEN_OCD_CONFIG}
+			-c "init; reset halt"
+		DEPENDS ${elf_file}
+		VERBATIM
+	)
+endfunction()
+
+function(start_gdb elf_file)
+	add_custom_target(${elf_file}_gdb
+		COMMAND ${GDB} -ex "target remote localhost:3333" -ex "monitor reset halt" -ex "load" ${elf_file}
 		VERBATIM
 	)
 endfunction()

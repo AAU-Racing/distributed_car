@@ -6,7 +6,7 @@
 #include <board_driver/gpio.h>
 
 #define OIL_PRESSURE_PIN                    PIN_8
-#define OIL_PRESSURE_GPIO_PORT              GPIOD
+#define OIL_PRESSURE_GPIO_PORT              GPIOA
 
 bool get_oil_pressure();
 void init_oil_pressure();

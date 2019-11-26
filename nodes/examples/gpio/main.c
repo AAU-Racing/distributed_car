@@ -9,7 +9,7 @@
 #include <stdbool.h>
 
 int main(void) {
-	led_driver_init(true);
+	led_driver_init_dash(true);
 	// dashboard_buttons_init();
 	sw_buttons_init();
 
@@ -21,7 +21,7 @@ int main(void) {
 			uint8_t green = 0;
 			uint8_t blue = 0;
 
-			set_led(b, red, green, blue);
+			set_led_dash(b, red, green, blue);
 		}
 
 		/* for (uint8_t color = 0; color < 3; color++) {

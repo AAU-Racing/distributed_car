@@ -8,7 +8,7 @@
 #include <stdbool.h>
 
 int main(void) {
-	uart_init();
+	uart_init(DEV_DEBUG_UART);
 	init_xbee();
 
 	printf("init complete\n");

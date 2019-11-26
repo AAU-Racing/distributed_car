@@ -3,7 +3,7 @@
 #include <board_driver/init.h>
 #include <board_driver/interrupts.h>
 #include <board_driver/uart.h>
-#include <board_driver/usb/usb.h>
+// #include <board_driver/usb/usb.h>
 
 //#define UART_AUTO_ECHO
 #define STACK_POINTER (__get_MSP())
@@ -31,6 +31,15 @@ void _exit(int exitcode) {
 	while(1);
 }
 
+#ifndef USB_SERIAL_INTERFACE
+uint8_t uart_config;
+
+void debug_uart_init(uint8_t config) {
+	uart_config = config;
+	uart_init(config);
+}
+#endif
+
 #ifdef USB_SERIAL_INTERFACE
 int _write(int file, char *ptr, int len) {
 	(void)file;
@@ -48,9 +57,10 @@ int _write(int file, char *ptr, int len) {
 	int i;
 	for (i = 0; i < len; i++) {
 		if (*ptr == '\n') {
-			uart_send_byte('\r');
+
+			uart_send_byte(uart_config, '\r');
 		}
-		uart_send_byte(*ptr);
+		uart_send_byte(uart_config, *ptr);
 		++ptr;
 	}
 
@@ -95,9 +105,9 @@ int _read(int file, char *ptr, int len) {
 
 	int i;
 	for (i = 0; i < len; i++) {
-		ptr[i] = uart_read_byte();
+		ptr[i] = uart_read_byte(uart_config);
 #ifdef UART_AUTO_ECHO
-		uart_send_byte(ptr[i]);
+		uart_send_byte(uart_config, ptr[i]);
 #endif
 		/* Return partial buffer if we get EOL */
 		if (ptr[i] == '\r') {

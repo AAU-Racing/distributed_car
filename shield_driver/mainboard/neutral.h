@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 #define NEUTRAL_SWITCH_PIN    PIN_15
-#define NEUTRAL_SWITCH_PORT   GPIOE
+#define NEUTRAL_SWITCH_PORT   GPIOA
 
 void neutral_switch_init(void);
 bool neutral_switch_get_state();

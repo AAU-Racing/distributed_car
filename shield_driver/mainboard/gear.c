@@ -1,7 +1,8 @@
 #include <stdbool.h>
+#include <stdio.h>
 
 #include <board_driver/can.h>
-#include <board_driver/bkpsram.h>
+// #include <board_driver/bkpsram.h>
 
 #include "gear.h"
 #include "gear_feedback.h"
@@ -24,7 +25,7 @@ static void commit_gear() {
 	ignition_cut_off();
 	started = false;
 	start = HAL_GetTick();
-	write_bkpsram(BKPSRAM_GEAR, gear);
+	// write_bkpsram(BKPSRAM_GEAR, gear);
 	can_transmit(CAN_GEAR_NUMBER, (uint8_t[]) {gear}, 1);
 }
 
@@ -127,16 +128,16 @@ static void gear_button_callback(CAN_RxFrame *msg) {
 int init_gear() {
 	init_actuator();
 	init_ignition_cut();
-	init_bkpsram();
+	// init_bkpsram();
 
 	return can_filter(CAN_GEAR_BUTTONS, 0x7FF, gear_button_callback);
 }
 
 void read_initial_gear() {
-	if (bkpsram_was_enabled_last_run()) {
-		gear = read_bkpsram(BKPSRAM_GEAR);
-	}
-	else {
+	// if (bkpsram_was_enabled_last_run()) {
+	// 	gear = read_bkpsram(BKPSRAM_GEAR);
+	// }
+	// else {
 		do {
 			gear_up();
 		} while (started);
@@ -159,7 +160,7 @@ void read_initial_gear() {
 				HAL_Delay(50);
 			}
 		}
-	}
+	//}
 
 	wanted_gear = gear;
 	commit_gear();

@@ -10,7 +10,7 @@
 #include <shield_driver/devboard/potmeter.h>
 
 int main(void) {
-	uart_init();
+	uart_init(DEV_DEBUG_UART);
 	printf("uart init complete\n");
 
 	HAL_Delay(100);

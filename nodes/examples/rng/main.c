@@ -7,7 +7,7 @@
 
 int main (void)
 {
-	uart_init();
+	uart_init(DEV_DEBUG_UART);
 	rng_init();
 
 	printf("Starting Random Generation:\n");

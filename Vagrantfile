@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "ubuntu/bionic64"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -40,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Install arm-none-eabi toolchain
   config.vm.provision "shell",
-    inline: "apt-get -y update && apt-get -y install gcc-arm-none-eabi libnewlib-arm-none-eabi cmake git openocd"
+    inline: "apt-get -y update && apt-get -y install gcc-arm-none-eabi libnewlib-arm-none-eabi cmake git openocd gdb-multiarch"
 
   # configure and make the project so the user is ready to work affter ssh
   config.vm.provision "shell",

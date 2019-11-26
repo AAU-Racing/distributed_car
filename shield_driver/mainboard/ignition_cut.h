@@ -4,7 +4,7 @@
 #include <board_driver/gpio.h>
 
 #define IGN_CUT_PIN 	PIN_8
-#define IGN_CUT_PORT	GPIOE
+#define IGN_CUT_PORT	GPIOB
 
 void init_ignition_cut();
 void ignition_cut_on();

@@ -13,7 +13,7 @@ static bool received = false;
 void AllMsg(CAN_RxFrame *msg);
 
 int main(void) {
-	uart_init();
+	uart_init(DEV_DEBUG_UART);
 
 	printf("UART init complete\n");
 	if (can_init(CAN_PD0) != CAN_OK) {

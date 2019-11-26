@@ -66,7 +66,7 @@ void setup(void) {
 	can_init(CAN_PD0);
 
 	// Init simple peripherals
-	led_driver_init(true);
+	led_driver_init_dash(true);
 	sw_buttons_init();
 
 	// CAN filters
@@ -146,7 +146,7 @@ void write_to_led(uint8_t led_number, uint16_t r, uint16_t g, uint16_t b) {
 	g = g * brightness_level;
 	b = b * brightness_level;
 
-	set_led(led_number, r, g, b);
+	set_led_dash(led_number, r, g, b);
 }
 
 void brightness_level_up() {

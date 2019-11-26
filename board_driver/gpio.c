@@ -48,28 +48,30 @@ static uint8_t pin_number(GPIO_Pin pin) {
 }
 
 static uint8_t port_number(GPIO_TypeDef *port) {
-	uint32_t num = (uint32_t) port; // Convert pointer to int
+	switch ((uint32_t) port) {
+		case ((uint32_t) GPIOA):
+			return 0;
+		case ((uint32_t) GPIOB):
+			return 1;
+		case ((uint32_t) GPIOC):
+			return 2;
+		case ((uint32_t) GPIOH):
+			return 3;
+	}
 
-	num -= AHB1PERIPH_BASE; // Extract offset
-
-	return num / 0x400; // Offset of 0x400 per port
+	return -1;
 }
 
 static void init_gpio_clock(GPIO_TypeDef *port) {
-	static uint32_t bits[9] = {
-		RCC_AHB1ENR_GPIOAEN,
-		RCC_AHB1ENR_GPIOBEN,
-		RCC_AHB1ENR_GPIOCEN,
-		RCC_AHB1ENR_GPIODEN,
-		RCC_AHB1ENR_GPIOEEN,
-		RCC_AHB1ENR_GPIOFEN,
-		RCC_AHB1ENR_GPIOGEN,
-		RCC_AHB1ENR_GPIOHEN,
-		RCC_AHB1ENR_GPIOIEN,
+	static uint32_t bits[4] = {
+		RCC_AHB2ENR_GPIOAEN,
+		RCC_AHB2ENR_GPIOBEN,
+		RCC_AHB2ENR_GPIOCEN,
+		RCC_AHB2ENR_GPIOHEN,
 	};
 
 	// Enable clock
-	SET_BIT(RCC->AHB1ENR, bits[port_number(port)]);
+	SET_BIT(RCC->AHB2ENR, bits[port_number(port)]);
 }
 
 // Init functions
@@ -163,19 +165,19 @@ void gpio_exti_init(GPIO_TypeDef *port, GPIO_Pin pin, GPIO_InterruptMode mode, G
 		port_number(port) << ((pos & 0x3) * 4U)); 	// Set port for external interrupt line
 
 	// Enable interrupt for that pin number
-	SET_BIT(EXTI->IMR, pin);
+	SET_BIT(EXTI->IMR1, pin);
 
 	// Clear edge configuration
-	CLEAR_BIT(EXTI->RTSR, pin);
-	CLEAR_BIT(EXTI->FTSR, pin);
+	CLEAR_BIT(EXTI->RTSR1, pin);
+	CLEAR_BIT(EXTI->FTSR1, pin);
 
 	// Set edge configuration
 	if ((mode & GPIO_RISING_EDGE) != 0) {
-		SET_BIT(EXTI->RTSR, pin);
+		SET_BIT(EXTI->RTSR1, pin);
 	}
 
 	if ((mode & GPIO_FALLING_EDGE) != 0) {
-		SET_BIT(EXTI->FTSR, pin);
+		SET_BIT(EXTI->FTSR1, pin);
 	}
 
 	// Set parameters
@@ -223,8 +225,8 @@ bool gpio_get_state(GPIO_TypeDef *port, GPIO_Pin pin) {
 
 // Interrupt callback
 static void EXTI_Callback(GPIO_Pin pin) {
-	if((EXTI->PR & pin) != 0) {			// 0 if not pending
-      	EXTI->PR = pin; 				// Clear pending
+	if((EXTI->PR1 & pin) != 0) {			// 0 if not pending
+      	EXTI->PR1 = pin; 				// Clear pending
 		uint8_t pos = pin_number(pin); 	// Get pin number as int
   		callback_funcions[pos](pin); 	// Call calback function
     }

@@ -4,12 +4,12 @@
 
 #include <stm32l4xx_hal.h>
 
-#include <board_driver/usb/usb.h>
+#include <board_driver/uart.h>
 #include <board_driver/iwdg.h>
 
 
 int main(void) {
-	usb_init();
+		uart_init(DEV_DEBUG_UART);
     HAL_Delay(1000);
     start_iwdg();
     printf("Starting\r\n");

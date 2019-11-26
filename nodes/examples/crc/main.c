@@ -18,7 +18,7 @@ int main(void) {
 	uint32_t expecthex = 0xAF6D87D2;
 
 	// Init uart and crc
-	uart_init();
+	uart_init(DEV_DEBUG_UART);
 	crc_init();
 
 	printf("crc init complete\n");

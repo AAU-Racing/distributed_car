@@ -6,6 +6,7 @@
 
 #define BUFFER_SIZE 256
 #define WRITE 0
+#define TIMINGR_CLEAR_MASK 0xF0FFFFFFU
 
 typedef struct {
 	uint16_t addr;
@@ -27,33 +28,21 @@ static void i2c_enable() {
 	SET_BIT(handle->CR1, I2C_CR1_PE);
 }
 
-static void i2c_freqrange(){
-	handle->CR2 = 40; // 40 MHz
-}
-
-static void i2c_rise_time(){
-	handle->TRISE = 0xD;
-}
-
-static void i2c_speed(){
-	SET_BIT(handle->CCR, I2C_CCR_FS);
-	SET_BIT(handle->CCR, I2C_CCR_DUTY);
-	MODIFY_REG(handle->CCR, I2C_CCR_CCR_Msk, 4);
+static void i2c_set_timing(){
+	handle->TIMINGR = 0x10909CEC & TIMINGR_CLEAR_MASK;
 }
 
 static void i2c_start_clock(){
-	SET_BIT(RCC->APB1ENR, RCC_APB1ENR_I2C2EN);
+	SET_BIT(RCC->APB1ENR1, RCC_APB1ENR1_I2C1EN);
 }
 
 int i2c_init(void) {
-    init_sda_pin();
-    init_scl_pin();
+  init_sda_pin();
+  init_scl_pin();
 
-	handle = I2C2;
-    i2c_start_clock();
-	i2c_freqrange();
-	i2c_speed();
-	i2c_rise_time();
+	handle = I2C1;
+  i2c_start_clock();
+	i2c_set_timing();
 	i2c_enable();
 
 	return 0;
@@ -63,62 +52,48 @@ int i2c_is_ready(uint16_t addr) {
 	return 1;
 }
 
-static void wait_for_start_generation() {
-	// I2C_SR1_SB: 1 means start sequence was generated
-	while(READ_BIT(handle->SR1, I2C_SR1_SB) == RESET) {}
-}
-
 static void start_condition(){
-	SET_BIT(handle->CR1, I2C_CR1_START);
-	wait_for_start_generation();
-}
-
-static void wait_for_addr_sent() {
-	// I2C_SR1_ADDR: 1 means address was sent
-	while(READ_BIT(handle->SR1, I2C_SR1_ADDR) == RESET) {}
-}
-
-static void clear_addr_sent() {
-	handle->SR1;
-	handle->SR2;
+	SET_BIT(handle->CR2, I2C_CR2_START);
 }
 
 static void set_slave_addr(uint8_t addr) {
-	// Clear EV5 by reading SR1 register
-	handle->SR1;
+	MODIFY_REG(handle->CR2, I2C_CR2_SADD_Msk, addr << 1);
+}
 
-	// Not for correct placement
-	addr = addr & ~1;
+static void set_write() {
+	CLEAR_BIT(handle->CR2, I2C_CR2_RD_WRN);
+}
 
-	// Set slave address
-	handle->DR = addr | WRITE;
-
-	wait_for_addr_sent();
-	clear_addr_sent();
+static void set_n_bytes(size_t n) {
+	MODIFY_REG(handle->CR2, I2C_CR2_NBYTES_Msk, n << I2C_CR2_NBYTES_Pos);
 }
 
 static void wait_for_dr_empty(){
-	//I2C_FLAG_TXE: Data register empty flag (1 means empty)
-	while(READ_BIT(handle->SR1, I2C_SR1_TXE) == RESET) {}
+	//I2C_FLAG_TXIS: Data register empty flag (1 means empty)
+	while(READ_BIT(handle->ISR, I2C_ISR_TXIS) == RESET)
+		;
 }
 
 static void transmit_byte(uint8_t byte) { // Write data to DR
-	handle->DR = byte;
+	handle->TXDR = byte;
 }
 
 static void wait_for_byte_transfer_finished() {
-	//I2C_FLAG_BTF: Byte transfer finished flag (1 means finished)
-	while(READ_BIT(handle->SR1, I2C_SR1_BTF) == RESET) {}
+	//I2C_FLAG_TC: Transfer complete flag (1 means finished)
+	while(READ_BIT(handle->ISR, I2C_ISR_TC) == RESET)
+		;
 }
 
 static void stop_condition(){
-	handle->CR1 |= I2C_CR1_STOP;
+	SET_BIT(handle->CR2, I2C_CR2_STOP);
 }
 
 int i2c_master_transmit(uint16_t addr, uint8_t *buf, size_t n) { // No DMA
+	set_slave_addr(addr);
+	set_write();
+	set_n_bytes(n);
 
 	start_condition();
-	set_slave_addr(addr);
 
 	for (uint8_t i = 0; i < n; i++) {
 		wait_for_dr_empty();

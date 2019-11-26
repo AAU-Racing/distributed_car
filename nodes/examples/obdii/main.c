@@ -17,7 +17,7 @@ uint32_t lastRPMTick = 0;
 uint32_t lastThrottleTick = 0;
 
 void setup() {
-	uart_init();
+	uart_init(DEV_DEBUG_UART);
 
 	printf("UART init complete\n");
 

@@ -1,8 +1,7 @@
 add_library(shield_driver
-	mainboard/sd.c
-	mainboard/sd_setup.c
+	#mainboard/sd.c
+	#mainboard/sd_setup.c
 	mainboard/current_clamps.c
-	mainboard/xbee.c
 	mainboard/error.c
 	mainboard/water_temp.c
 	mainboard/wheel_sensor.c
@@ -38,8 +37,8 @@ add_library(shield_driver
 target_link_libraries(shield_driver
 	CMSIS
 	STM32l4xx_HAL_Driver
-	STM32_USB_Device_Library
+	#STM32_USB_Device_Library
 	board_driver
-	fatfs
+	#fatfs
 	m
 )
