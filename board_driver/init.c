@@ -43,7 +43,7 @@ static void wait_until_hsi_ready() {
     while (READ_BIT(RCC->CR, RCC_CR_HSIRDY) == RESET) {}
 }
 
-static void enable_hse() {
+static void enable_hsi() {
     SET_BIT(RCC->CR, RCC_CR_HSION);
 
     wait_until_hsi_ready();
